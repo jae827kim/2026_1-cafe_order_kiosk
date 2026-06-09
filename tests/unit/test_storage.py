@@ -63,3 +63,13 @@ def test_cancel_paid_order_is_error() -> None:
 
     with pytest.raises(ValueError, match="Paid order cannot be canceled"):
         store.cancel_order(order.id)
+
+def test_add_item_with_price_options_updates_total() -> None:
+    store = KioskStore.with_default_menu()
+    order = store.create_order()
+
+    store.add_item(order.id, menu_item_id=1, quantity=2, options=["샷추가"])
+
+    order = store.get_order(order.id)
+    assert order is not None
+    assert order.total == 8000

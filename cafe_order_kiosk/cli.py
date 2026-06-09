@@ -56,7 +56,7 @@ def print_help() -> None:
     print("\t메뉴")
     print("\t주문 생성 [메모]")
     print("\t주문 선택 <주문_id>")
-    print("\t주문 추가 <메뉴_id> <수량> [옵션]")
+    print("\t주문 추가 <메뉴_id> <수량> [옵션] (콤마 구분 / 예: 샷추가, 사이즈업, ICE)")
     print("\t주문 삭제 <라인번호>")
     print("\t주문 조회")
     print("\t주문 취소")

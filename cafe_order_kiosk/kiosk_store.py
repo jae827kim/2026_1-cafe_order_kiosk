@@ -81,6 +81,24 @@ class KioskStore:
             quantity=quantity,
             options=options or [],
         )
+        extra_price = 0
+        resolved_options = options or []
+        
+        for option in resolved_options:
+            normalized = option.strip().lower()
+            if "샷추가" in normalized or "shot" in normalized:
+                extra_price += 500
+            elif "사이즈업" in normalized or "sizeup" in normalized:
+                extra_price += 1000
+
+        order_item = OrderItem(
+            menu_item_id=menu_item.id,
+            name=menu_item.name,
+            unit_price=menu_item.price + extra_price, 
+            quantity=quantity,
+            options=resolved_options,
+        )
+
         order.items.append(order_item)
         return order
 
