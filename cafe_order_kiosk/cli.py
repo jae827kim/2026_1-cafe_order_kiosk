@@ -203,12 +203,27 @@ def handle_pay(store: KioskStore, state: CLIState, args: list[str]) -> None:
         amount = order.total
 
     try:
-        store.pay_order(order.id, method, amount)
+        order = store.pay_order(order.id, method, amount)
     except ValueError as exc:
         print(str(exc))
         return
 
-    print(f"주문 #{order.id} 결제 완료 ({method}).")
+    print("\n==========================================")
+    print("             RECEIPT (영수증)             ")
+    print("==========================================")
+    print(f" 주문 번호 : #{order.id}")
+    print(f" 결제 수단 : {method.upper()}")
+    print("------------------------------------------")
+    print(" 상품명                    수량        금액")
+    print("------------------------------------------")
+    for item in order.items:
+        opt_str = f"[{','.join(item.options)}]" if item.options else ""
+        name_col = f"{item.name} {opt_str}".strip()
+        print(f" {name_col:<20} x{item.quantity:<4} {item.line_total:>8,}원")
+    print("------------------------------------------")
+    print(f" 합계 :                      {order.total:>8,}원")
+    print("==========================================\n")
+    state.current_order_id = None
 
 
 def print_order(order) -> None:
